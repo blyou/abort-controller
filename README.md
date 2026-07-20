@@ -17,13 +17,13 @@ Because the project's TypeScript target is `es2023` (no DOM lib), this package a
 ## Installation
 
 ```bash
-npm install abort-controller
+npm install @blyou/abort-controller
 ```
 
 ## Usage
 
 ```ts
-import { AbortController, AbortSignal } from 'abort-controller'
+import { AbortController, AbortSignal } from '@blyou/abort-controller'
 
 const controller = new AbortController()
 
