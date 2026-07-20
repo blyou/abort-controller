@@ -1,5 +1,5 @@
 {
-  "name": "abort-controller",
+  "name": "@blyou/abort-controller",
   "version": "1.0.0",
   "description": "WHATWG DOM Standard compliant AbortController and AbortSignal with zero dependencies.",
   "keywords": [
@@ -30,6 +30,9 @@
       "require": "./dist/index.cjs"
     },
     "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsdown",
