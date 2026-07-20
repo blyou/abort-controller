@@ -1,6 +1,6 @@
 {
   "name": "abort-controller",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "WHATWG DOM Standard compliant AbortController and AbortSignal with zero dependencies.",
   "keywords": [
     "abortcontroller",
