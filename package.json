@@ -2,16 +2,20 @@
   "name": "abort-controller",
   "version": "0.0.0",
   "description": "WHATWG DOM Standard compliant AbortController and AbortSignal with zero dependencies.",
-  "keywords": [],
-  "homepage": "https://github.com/author/library#readme",
+  "keywords": [
+    "abortcontroller",
+    "abortsignal",
+    "whatwg"
+  ],
+  "homepage": "https://github.com/blyou/abort-controller#readme",
   "bugs": {
-    "url": "https://github.com/author/library/issues"
+    "url": "https://github.com/blyou/abort-controller/issues"
   },
   "license": "MIT",
-  "author": "Author Name <author.name@mail.com>",
+  "author": "blyou <youbolincode@163.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/author/library.git"
+    "url": "git+https://github.com/blyou/abort-controller.git"
   },
   "files": [
     "dist"

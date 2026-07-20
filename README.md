@@ -76,4 +76,4 @@ This implementation follows the [WHATWG DOM Standard — AbortController](https:
 
 ## License
 
-MIT
+[MIT](./LICENSE)
