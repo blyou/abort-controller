@@ -26,11 +26,76 @@ export interface EventListenerObject {
 
 export type EventListener = EventListenerCallback | EventListenerObject
 
-// Structural view of an AbortSignal used by the `signal` option of
-// addEventListener, to avoid a circular import with abort-signal.ts.
+/**
+ * A structural description of the subset of the DOM `AbortSignal` interface
+ * that this library depends on.
+ *
+ * It is intentionally a structural "like" type (rather than the DOM
+ * `AbortSignal` itself) so that:
+ *   - it works in builds that do not include the DOM lib (`lib: ["es2023"]`),
+ *   - the *native* `AbortSignal` (from `lib.dom.d.ts`),
+ *   - this library's own `AbortSignal` (see `./abort-signal`), and
+ *   - any other conforming implementation
+ * are all assignable to it.
+ *
+ * Because this project ships its own `Event` class (with a few extra internal
+ * fields) that is *not* identical to the DOM `Event`, every place that would
+ * otherwise be typed with `Event` is typed with `any` instead. Under `strict`,
+ * function-typed members are checked (contra)variantly, and `Event` from one
+ * implementation is never assignable to `Event` from another — `any` is what
+ * keeps a native `AbortSignal` assignable to this interface.
+ *
+ * The core members (`aborted`, `addEventListener`, `removeEventListener`) are
+ * required; the rest mirror the spec but are optional so that lightweight
+ * custom signals remain assignable.
+ */
 export interface AbortSignalLike {
+  /** Whether the signal has been aborted. */
   readonly aborted: boolean
-  addEventListener(type: 'abort', listener: () => void): void
+
+  /**
+   * The reason the signal was aborted, or `undefined` when it has not been
+   * aborted yet. Mirrors the DOM `AbortSignal.reason` (typed `any` there).
+   */
+  reason?: any
+
+  /**
+   * The `abort` event handler property. Mirrors the DOM `onabort`: it accepts
+   * either a plain callback or an object with a `handleEvent` method.
+   */
+  onabort?: ((event: any) => void) | { handleEvent(event: any): void } | null
+
+  /** Throws the abort reason if the signal has already been aborted. */
+  throwIfAborted?(): void
+
+  /** Register a listener for the `"abort"` event. */
+  addEventListener(
+    type: 'abort',
+    listener: (event: any) => void,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+  /** Register a listener for any event type. */
+  addEventListener(
+    type: string,
+    listener: ((event: any) => void) | { handleEvent(event: any): void } | null,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+
+  /** Remove an `"abort"` listener. */
+  removeEventListener(
+    type: 'abort',
+    listener: (event: any) => void,
+    options?: boolean | EventListenerOptions,
+  ): void
+  /** Remove a listener for any event type. */
+  removeEventListener(
+    type: string,
+    listener: ((event: any) => void) | { handleEvent(event: any): void } | null,
+    options?: boolean | EventListenerOptions,
+  ): void
+
+  /** Dispatch an event to this target. Inherited from `EventTarget`. */
+  dispatchEvent?(event: any): boolean
 }
 
 interface ListenerRecord {
@@ -167,7 +232,7 @@ function normalizeOptions(options?: boolean | EventListenerOptions): {
   capture: boolean
   once: boolean
   passive: boolean
-  signal?: AbortSignalLike
+  signal?: AbortSignalLike | null
 } {
   if (typeof options === 'boolean') {
     return { capture: options, once: false, passive: false }
