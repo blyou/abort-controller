@@ -1,6 +1,6 @@
 {
   "name": "@blyou/abort-controller",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "WHATWG DOM Standard compliant AbortController and AbortSignal with zero dependencies.",
   "keywords": [
     "abortcontroller",
